@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Click Email</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Helvetica, Arial, sans-serif;
+        box-sizing: border-box;
+      }
+      .email-container {
+        width: 640px;
+        margin: 0 auto;
+        padding: 32px;
+        background-color: #f4f8ff;
+      }
+      .content-box {
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        padding: 32px;
+      }
+      .logo {
+        padding-inline: 32px;
+        padding-block: 24px;
+      }
+      .content {
+        color: #121212;
+      }
+        .cta-button {
+        display: inline-block;
+     width: 100%;
+     max-width: 280px;
+     height: 44px;
+     line-height: 44px;
+     background-color: #0047BB;
+     color: #FDFEFE;
+     text-decoration: none;
+     border-radius: 999px;
+     font-size: 16px;
+     font-weight: 600;
+     text-align: center;
+     padding: 0 32px;
+     box-sizing: border-box;
+     cursor: pointer;
+      }
+      .footer {
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        padding-block: 32px;
+        color: #121212;
+      }
+      .footer-logo {
+        padding-top: 32px;
+      }
+      .social-icons img {
+        margin: 0 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <table width="100%" cellpadding="0" cellspacing="0" class="email-container">
+      <tr>
+        <td align="center">
+          <table
+            cellpadding="0"
+            cellspacing="0"
+            width="640"
+            style="margin-bottom: 12px"
+          >
+            <tr>
+              <td
+                class="logo"
+                align="left"
+                style="padding-inline: 32px; padding-block: 24px"
+              >
+                <img
+                  src="https://project-click.s3.amazonaws.com/ca49bd66-eca8-49e7-8958-f4b73c99bc1b-logo.png"
+                  alt="CLICK"
+                  width="154"
+                  height="40"
+                />
+              </td>
+            </tr>
+          </table>
+
+          <table cellpadding="0" cellspacing="0" class="content-box">
+            <tr>
+              <td class="content">
+                <p
+                  style="
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 24px;
+                    color: #121212;
+                  "
+                >
+                  {{message}}
+                </p>
+
+                <table cellpadding="0" cellspacing="0" style="margin: 20px 0">
+                  <tr>
+                    <td align="center">
+                      <a href="{{clickLondonUrl}}" class="cta-button"
+                        >Open Click London</a
+                      >
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="font-size: 16px; margin: 16px 0 32px 0">
+                  This link will only be valid for the next 5 minutes. If the
+                  link does not work, you can use this URL link:
+                  <br />
+                  <a
+                    href="{{clickLondonUrl}}"
+                    style="color: #0066ff; padding-top: 8px; display: block"
+                    >{{clickLondonUrl}}</a
+                  >
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td class="footer">
+                <p>
+                  This email was sent to
+                  <a href="mailto:{{email}}" style="color: #0066ff">{{email}}</a
+                  >. If you'd rather not receive this kind of email, you can
+                  <a href="{{unsubscribeUrl}}" style="color: #0066ff"
+                    >unsubscribe</a
+                  >
+                  or
+                  <a href="{{managePreferencesUrl}}" style="color: #0066ff"
+                    >manage your email preferences</a
+                  >.
+                </p>
+                <p>
+                  ClickLondon© 2024, 510 Townsend Street, San Francisco CA 94103
+                </p>
+              </td>
+            </tr>
+
+            <!-- Bottom Logo -->
+            <tr>
+              <td class="footer-logo">
+                <img
+                  src="https://project-click.s3.amazonaws.com/ca49bd66-eca8-49e7-8958-f4b73c99bc1b-logo.png"
+                  alt="CLICK"
+                  width="108"
+                  height="27"
+                />
+                <br />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Booking" ALTER COLUMN "address" SET DATA TYPE VARCHAR(500);

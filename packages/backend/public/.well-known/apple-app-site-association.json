@@ -1,0 +1,14 @@
+{
+    "applinks": {
+        "details": [
+            {
+                "appID": "FP7YAMDJ42.com.london.click",
+                "paths": [
+                    "/calendar*",
+                    "/calendar/*",
+                    "/forgot-password/*"
+                ]
+            }
+        ]
+    }
+}

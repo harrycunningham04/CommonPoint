@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "ESoftOrderStatus" ADD VALUE 'CORRECTION_CREATED';

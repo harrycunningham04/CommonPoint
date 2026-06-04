@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "B2BClients" ADD COLUMN     "offices" INTEGER NOT NULL DEFAULT 0;

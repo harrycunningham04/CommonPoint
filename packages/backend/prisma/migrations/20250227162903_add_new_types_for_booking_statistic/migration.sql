@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "StatisticType" ADD VALUE 'BOOKING_PHOTO_SLA_FAILED';
