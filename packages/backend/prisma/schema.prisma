@@ -2375,3 +2375,35 @@ model RollingReserve {
 
   @@map("rolling_reserve")
 }
+
+model Entity {
+  id                       String                 @id @default(uuid()) @db.Uuid
+  name                     String
+  entity_type              EntityType
+  parent_entity_id         String?                @db.Uuid
+  psl_config_id            String?                @db.Uuid
+  payment_score_green      Boolean                @default(true)
+  enforcement_ladder_state EnforcementLadderState @default(ACTIVE)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("entity")
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  password_hash String?
+  role          UserRole
+  is_active     Boolean  @default(true)
+
+  entity_id     String? @db.Uuid
+  contractor_id String? @db.Uuid
+  supplier_id   String? @db.Uuid
+
+  created_at    DateTime  @default(now())
+  last_login_at DateTime?
+
+  @@map("user")
+}
