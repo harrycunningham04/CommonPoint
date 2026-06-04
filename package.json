@@ -1,20 +1,18 @@
 {
-  "name": "ssr-nest-monorepo",
-  "version": "1.0.0",
-  "description": "",
+  "name": "commonpoint",
+  "version": "0.1.0",
+  "description": "Common Point marketplace backend foundation",
   "main": "index.js",
   "private": true,
   "scripts": {
     "postinstall": "husky install",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable",
-    "frontend:dev": "yarn workspace frontend dev",
     "backend:dev": "yarn workspace backend start:dev",
-    "frontend:lint": "yarn workspace frontend lint",
     "backend:lint": "yarn workspace backend lint",
-    "frontend:build": "yarn workspace frontend build",
     "backend:build": "yarn workspace backend build",
-    "start": "concurrently --kill-others-on-fail \"yarn frontend:dev\"  \"yarn backend:dev\"",
+    "backend:test": "yarn workspace backend test",
+    "start": "yarn backend:dev",
     "prepare": "husky install"
   },
   "workspaces": {
@@ -24,7 +22,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "devDependencies": {
     "husky": "^8.0.0",
     "pinst": "^3.0.0",
