@@ -2453,3 +2453,56 @@ model SupplierReworkAllowance {
 
   @@map("supplier_rework_allowance")
 }
+
+model ContractorCoverageMap {
+  id                  String              @id @default(uuid()) @db.Uuid
+  contractor_id       String              @db.Uuid
+  service_type        String?
+  approved_cells      String[]
+  named_exclusions    String[]
+  postcode_exclusions String[]
+  input_method_used   CoverageInputMethod
+  updated_at          DateTime            @default(now()) @updatedAt
+
+  @@map("contractor_coverage_map")
+}
+
+model TravelFeeConfig {
+  id                String  @id @default(uuid()) @db.Uuid
+  contractor_id     String  @unique @db.Uuid
+  home_address      String
+  home_lat          Decimal
+  home_lng          Decimal
+  free_radius_miles Decimal
+  per_mile_rate     Decimal
+  is_active         Boolean @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("travel_fee_config")
+}
+
+model TravelFeeCalculation {
+  id                  String   @id @default(uuid()) @db.Uuid
+  order_id            String   @db.Uuid
+  contractor_id       String   @db.Uuid
+  road_distance_miles Decimal
+  chargeable_miles    Decimal
+  fee_amount          Decimal
+  calculated_at       DateTime @default(now())
+
+  @@map("travel_fee_calculation")
+}
+
+model ContractorReferral {
+  id              String   @id @default(uuid()) @db.Uuid
+  contractor_id   String   @unique @db.Uuid
+  referral_code   String   @unique
+  referral_url    String
+  qr_code_url     String?
+  total_referrals Int      @default(0)
+  created_at      DateTime @default(now())
+
+  @@map("contractor_referral")
+}
