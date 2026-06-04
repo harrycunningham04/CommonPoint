@@ -2329,3 +2329,49 @@ model XeroConnection {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 }
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  event_type String
+  actor_id   String?  @db.Uuid
+  actor_role String?
+  order_id   String?  @db.Uuid
+  entity_id  String?  @db.Uuid
+  payload    Json     @db.JsonB
+  created_at DateTime @default(now())
+
+  @@map("audit_log")
+}
+
+model ONSRuralClassification {
+  id                String   @id @default(uuid()) @db.Uuid
+  postcode_district String   @unique
+  ons_code          String
+  is_rural          Boolean
+  dataset_version   String
+  last_updated      DateTime
+
+  @@map("ons_rural_classification")
+}
+
+model PayoutRun {
+  id             String          @id @default(uuid()) @db.Uuid
+  scheduled_for  DateTime
+  executed_at    DateTime?
+  approved_by_id String?         @db.Uuid
+  status         PayoutRunStatus @default(PENDING)
+  total_amount   Decimal?
+
+  @@map("payout_run")
+}
+
+model RollingReserve {
+  id              String   @id @default(uuid()) @db.Uuid
+  contractor_id   String   @unique @db.Uuid
+  current_rate    Decimal  @default(0.15)
+  current_balance Decimal  @default(0)
+  reserve_debt    Decimal  @default(0)
+  last_updated    DateTime @default(now()) @updatedAt
+
+  @@map("rolling_reserve")
+}
