@@ -9,6 +9,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Common Point schema foundation notes:
+// - Existing Booking model is the current technical base for Common Point Order.
+// - Existing Product model maps conceptually to ServiceType.
+// - Existing ProductType model maps conceptually to ServiceTemplate.
+// - Formal renames are deferred because existing backend references are high.
+
 enum AuthProviders {
   CREDENTIALS
   GOOGLE
@@ -427,6 +433,252 @@ enum PaymentPreference {
   STRIPE
 }
 
+enum OrderState {
+  DRAFT
+  PENDING_PAYMENT
+  PAYMENT_FAILED
+  ABANDONED
+  BRIEF_LOCKED
+  BRIEF_SNAPSHOT_ERROR
+  PENDING_ALLOCATION
+  ZONE2_PENDING
+  ZONE2_REALLOCATING
+  ALLOCATED
+  KEYS_REQUIRED
+  EN_ROUTE_TO_KEYS
+  KEYS_COLLECTED
+  KEY_COLLECTION_FAILED
+  KEYS_TO_RETURN
+  KEYS_RETURNED
+  CONTRACTOR_EN_ROUTE
+  PRE_NO_SHOW
+  NO_SHOW
+  ARRIVAL_UNCONFIRMED
+  ON_SITE
+  DO_NOT_PROCEED
+  JOB_IN_PROGRESS
+  FILES_UPLOADING
+  FILES_UPLOADED
+  SUPPLIER_TRIAGE
+  TRIAGE_QUERY
+  TRIAGE_FAILED
+  TRIAGE_ESCALATED
+  TRIAGE_PASSED
+  IN_PRODUCTION
+  QC_HOLD
+  SUPPLIER_AMENDMENT
+  DELIVERED
+  CLIENT_REVIEWING
+  AMENDMENT_REQUESTED
+  APPROVAL_PENDING
+  APPROVED
+  AUTO_APPROVED
+  PAYOUT_ELIGIBLE
+  COMPLETED
+  POST_COMPLETION_QUERY
+  CLOSED
+  DISPUTED
+  UNDER_ADJUDICATION
+  RESOLVED
+  CANCELLED_COOLING_OFF
+  CANCELLED_ADMIN_FEE
+  CANCELLED_CALL_OUT
+  CANCELLED_LATE_ARRIVAL
+  CANCELLED_PLATFORM_FAILURE
+  CANCELLED_REAUTH_EXPIRED
+  REARRANGED
+  STUCK
+}
+
+enum UserRole {
+  CLIENT_B2B
+  CLIENT_B2C
+  CLIENT_D2C
+  CONTRACTOR_INDEPENDENT
+  CONTRACTOR_COMPANY_ADMIN
+  CONTRACTOR_OPERATOR
+  CONTRACTOR_EMPLOYED
+  SUPPLIER_ADMIN
+  SUPPLIER_WORKER
+  OPS_COORDINATOR_STANDARD
+  OPS_COORDINATOR_ONBOARDING
+  OPS_COORDINATOR_CAPACITY
+  OPS_COORDINATOR_SALES
+  OPS_MANAGER
+  OPS_DIRECTOR
+}
+
+enum EntityType {
+  B2B_BRANCH
+  B2B_GROUP
+  B2B_REGION
+  D2C
+  ENTERPRISE
+}
+
+enum BookingZone {
+  ZONE1
+  ZONE2
+  ZONE3
+}
+
+enum AccuracyTier {
+  HIGH_ACCURACY
+  STANDARD_ACCURACY
+}
+
+enum SupplierCapabilityTier {
+  CAPABLE_INTERNAL
+  CAPABLE_PLATFORM_ASSISTED
+  NOT_CAPABLE
+}
+
+enum SupplierTrack {
+  TRACK_A
+  TRACK_B
+}
+
+enum EnforcementLadderState {
+  ACTIVE
+  RESTRICTED_NEW_BOOKINGS
+  RESTRICTED_CONTENT
+  DIRECTOR_ESCALATION
+  SUSPENDED
+}
+
+enum CancellationReason {
+  COOLING_OFF
+  ADMIN_FEE
+  CALL_OUT
+  LATE_ARRIVAL
+  PLATFORM_FAILURE
+  REAUTH_EXPIRED
+}
+
+enum ConditionDeclaration {
+  MATCHES_DECLARATION
+  DOES_NOT_MATCH
+}
+
+enum DisputeTier {
+  TIER1_AUTO
+  TIER2_SIGNAL
+  TIER3_TWO_VS_THREE
+  HUMAN_TRIAGE
+}
+
+enum DisputeInitiationStatus {
+  IN_PROGRESS
+  RESOLVED
+  ESCALATED
+}
+
+enum TwoVsThreeOutcome {
+  AGREED_OBJECTIVE
+  AGREED_SUBJECTIVE
+  AGREED_MEETS_STANDARD
+  CONFLICT_ESCALATE
+}
+
+enum FloorPlanChallengeType {
+  TYPE_A
+  TYPE_B
+  TYPE_C
+  TYPE_D1
+  TYPE_D2
+  TYPE_D3
+}
+
+enum ChallengeStatus {
+  IN_PROGRESS
+  RESOLVED
+  ESCALATED
+}
+
+enum PayoutRunStatus {
+  PENDING
+  APPROVED
+  EXECUTED
+  FAILED
+}
+
+enum StrikeType {
+  HARD
+  STANDARD
+  LIGHT
+}
+
+enum PortalTarget {
+  RIGHTMOVE
+  ZOOPLA
+  ONTHEMARKET
+}
+
+enum CoverageInputMethod {
+  BOROUGH_SELECTION
+  DRIVE_TIME_RADIUS
+  MANUAL
+}
+
+enum PSLLevel {
+  GROUP
+  BRANCH
+}
+
+enum TriageState {
+  PENDING
+  IN_PROGRESS
+  QUERY
+  FAILED
+  ESCALATED
+  PASSED
+}
+
+enum UpliftStatus {
+  PENDING
+  PAID
+  DECLINED
+}
+
+enum PaymentStatus {
+  PENDING
+  CAPTURED
+  REFUNDED
+}
+
+enum DamageType {
+  DIRECTLY_CAUSED
+  OCCURRED_IN_COURSE_OF_DUTIES
+}
+
+enum DamageResolution {
+  RESERVE_DEBIT
+  INSURANCE_CLAIM
+  CLIENT_REIMBURSEMENT
+  DISPUTE
+}
+
+enum DamageResolutionState {
+  PENDING
+  RESERVE_DEBIT
+  INSURANCE_CLAIM
+  DISPUTED_RECEIPT
+  RESOLVED
+}
+
+enum StrikeSubjectType {
+  CONTRACTOR
+  SUPPLIER
+}
+
+enum EvidenceCategory {
+  PRE_EXISTING_DAMAGE
+  ACCESS_ISSUE
+  SAFETY_CONCERN
+  PROPERTY_CONDITION
+  OTHER
+}
+
 model Admin {
   id         String    @id @default(uuid()) @db.Uuid
   email      String    @unique @db.VarChar(55)
@@ -810,16 +1062,16 @@ model Office {
   paymentPreferences PaymentPreference @default(INVOICES)
   workers            WorkerOnOffice[]
 
-  PackageTargets      PackageTargets[]
-  BookingGroup        BookingGroup[]
-  officePreference    OfficePreference[]
+  PackageTargets       PackageTargets[]
+  BookingGroup         BookingGroup[]
+  officePreference     OfficePreference[]
   officeHiddenProducts OfficeHiddenProduct[]
 }
 
 model OfficeHiddenProduct {
   id        String @id @default(uuid()) @db.Uuid
-  officeId  String @db.Uuid @map("office_id")
-  productId String @db.Uuid @map("product_id")
+  officeId  String @map("office_id") @db.Uuid
+  productId String @map("product_id") @db.Uuid
 
   office  Office  @relation(fields: [officeId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
