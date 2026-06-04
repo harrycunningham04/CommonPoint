@@ -1,0 +1,2079 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["metrics"]
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AuthProviders {
+  CREDENTIALS
+  GOOGLE
+
+  @@map("auth")
+}
+
+enum ContractorSkillNama {
+  VIDEO
+  PHOTO
+  DRONE
+  FLOORPLAN
+  EPC
+  FIRERISK_ASSESMENT
+  CGI
+  VIRTUAL_TOUR
+  HEADSHOT
+  LEASE_PLAN
+}
+
+enum TrainingCategory {
+  PHOTOGRAPHY
+  VIDEO
+  FLOORPLAN
+  VIRTUAL_STAGING
+  EPC
+  FIRERISK_ASSESMENT
+}
+
+enum RoomType {
+  LIVING_ROOM
+  BEDROOM
+  KITCHEN
+  BATHROOM
+  OFFICE
+  DINING_ROOM
+  HALLWAY
+  OTHER
+}
+
+enum ContractorTransportation {
+  BICYCLE
+  MOTOBIKE
+  CAR
+  PUBLIC_TRANSPORTATION
+}
+
+enum NotificationPreferences {
+  CONTENT
+  BOOKING
+  CONTRACTOR
+  BOOKING_REPORT
+  INVOICES
+  KEYS
+  REPORTS
+  OFFICE_ADDED
+}
+
+enum NotificationType {
+  CONTRACTOR
+  CLIENT
+  BOOKINGS
+  UPDATES
+}
+
+enum NotificationUrgency {
+  NORMAL
+  URGENT
+  VERY_URGENT
+}
+
+enum NotificationCategory {
+  CONTRACTOR_RUNNING_LATE_15_MINUTES
+  CONTRACTOR_RUNNING_LATE_5_10_MINUTES
+  CONTRACTOR_NO_AVAILABILITY_NEXT_WEEK
+  CONTRACTOR_ADDED_CERTIFICATES
+  CONTRACTOR_NO_ARRIVAL_CONFIRMATION
+  CONTRACTOR_DISPUTE_INVOICES
+  CONTRACTOR_CHANGED_RADIUS
+  CONTRACTOR_ADDED_SKILLS
+  CONTRACTOR_CHANGED_TRANSPORTATION_METHOD
+  CONTRACTOR_ADJUSTED_AVAILABILITY
+  CONTRACTOR_ARRIVED_ON_SITE
+  CONTRACTOR_LEFT_THE_SITE
+  CONTRACTOR_LEFT_THE_KEYS
+  CONTRACTOR_TRAINING_REQUEST
+
+  CLIENT_B2B_ADDED_NEW_OFFICE
+  CLIENT_B2B_DELETED_OFFICE
+  CLIENT_B2B_DISPUTE_INVOICES
+  CLIENT_B2B_CHANGED_CONTACT_INFO
+  CLIENT_B2B_FIRST_ORDER
+
+  BOOKINGS_NEW_BOOKING
+  BOOKING_CONFIRMED
+  BOOKINGS_URGENT_REPORT_FROM_CONTRACTOR
+  BOOKINGS_REPORT_AFTER_COMPLETION
+  BOOKINGS_CHALLENGE_CONTENT_ADJUSTMENTS
+  BOOKINGS_REVIEW_LESS_THAN_3_STARS
+  BOOKINGS_CONFLICT_DUE_TO_DELAY
+  BOOKINGS_AVAILABILITY_CHANGED_DUE_TO_SICKNESS
+  BOOKINGS_LOST_B2B
+  BOOKINGS_CAPACITY_ABOVE_90_PERCENT
+  BOOKINGS_CAPACITY_ABOVE_80_PERCENT
+  BOOKINGS_ADJUSTED
+  KEYS_COLLECTED
+  BOOKING_MATERILAS_IN_PROGRESS
+  BOOKING_COMPLETED
+  BOOKING_CANCELED
+  BOOKING_DISPUTE_SOLVED
+
+  NEW_PRODUCT_AVAILABLE
+  NEW_COUPON_ACTIVE
+  UPDATE_TERMS_AND_CONDITIONS
+}
+
+enum ClientStatus {
+  NEW
+  REGULAR
+  PRIORITIZED
+}
+
+enum ClientType {
+  B2B
+  B2C
+}
+
+enum BookingType {
+  BOOKING
+  ORDER
+}
+
+enum PropertyType {
+  FLAT_APARTMENT
+  DETACHED_HOUSE
+  SEMI_DETACHED_HOUSE
+  TERRACED_HOUSE
+  BUNGALOW
+  STUDIO_FLAT
+  PENTHOUSE
+  TOWNHOUSE
+  DUPLEX_TRIPLEX
+}
+
+enum PropertyAccessType {
+  APPOINTMENT
+  KEYS
+}
+
+enum BookingStatus {
+  AWAITING_PAYMENT
+  BOOKED
+  CANCELED
+  KEYS_COLLECTING
+  IN_PROGRESS
+  LEFT_THE_SITE
+  IN_REVIEW
+  DONE
+}
+
+enum BookingStage {
+  BOOKED
+  KEYS_COLLECTED
+  CONTRACTOR_ARRIVED_ON_SITE
+  FLOORPLAN_SKETCH_UPLOADED
+  FLOORPLAN_SKETCH_DECLINED
+  CONTRACTOR_LEFT_THE_SITE
+  CONTRACTOR_LEFT_THE_KEYS
+  RAW_MATERIALS_UPLOADED
+  PHOTOS_DELIVERED
+  FLOORPLAN_IN_PROGRESS
+  FLOORPLAN_DELIVERED
+  DONE
+  CANCELED
+}
+
+enum BookingDuration {
+  SEC_45
+  SEC_120
+  AGENT_INTRO
+  VOICE_OVER
+}
+
+enum BookingPreference {
+  SLOW
+  FAST
+  PROPERTY_ADDRESS_INFO
+  BLUR_PERSONAL_PHOTOS
+  ELEVATE_EXTERNAL
+  X2_PORTRAIT
+  WIDE_ANGLE
+  X2_DETAIL
+  COLOURED
+  BLACK_AND_WHITE
+  ENHANCED_ACCESSIBILITY
+}
+
+enum CouponType {
+  VOLUME_OF_CASH
+  VOLUME_OF_ORDERS
+  SINGLE_USE
+}
+
+enum Target {
+  PRODUCT
+  PRODUCT_VARIANT
+  CLIENT_B2B
+  CLIENT_B2C
+  REGION
+  OFFICE_WORKER
+  SUBBRAND
+  PACKAGE
+}
+
+enum DiscountType {
+  PERCENTAGE
+  AMOUNT
+}
+
+enum MaterialType {
+  RAW
+  EDITED
+}
+
+enum MaterialRawType {
+  RAW
+  RAW_ADDITIONAL
+}
+
+enum VoteType {
+  LIKE
+  DISLIKE
+}
+
+enum MaterialTypeContent {
+  PHOTOS
+  VIDEOS
+  SKETCHES
+  REFERENCES
+  AUDIOS
+  FIRE_RISK_ASSESSMENT
+}
+
+enum DisputeStatus {
+  IN_PROGRESS
+  UNSOLVED
+  DONE
+}
+
+enum DisputeTheme {
+  BOOKING
+  INVOICE
+}
+
+enum ContractorDisputeCategory {
+  CAPTURE_ISSUE
+  JOB_DISCREPANCY
+  INVOICE_DISPUTE
+}
+
+enum ClientDisputeCategory {
+  CLIENT_INVOICE
+  QUALITY_CONCERN
+  BOOKING_ISSUE
+}
+
+enum InvoiceContractor {
+  PAID
+  PENDING
+  REPORTED
+  CANCELED
+}
+
+enum InvoiceStatus {
+  SENT
+  AWAITING_PAYMENT
+  PAID
+  CANCELED
+  REPORTED
+}
+
+enum StripeInvoiceStatus {
+  SENT
+  PAID
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  STRIPE
+  OTHER
+}
+
+enum PaymentType {
+  STRIPE
+  BANK_PAYOUT
+}
+
+enum ContractorPayoutStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum OfficeType {
+  RESIDENTIAL
+  COMMERCIAL
+  OTHER
+}
+
+enum OfficeClientType {
+  SALES
+  LETTINGS
+  OTHER
+}
+
+enum CategoryPreference {
+  PHOTOGRAPHY
+  VIDEO
+  FLOORPLAN
+  EDITING
+  EXPORT
+}
+
+enum WidgetType {
+  WEATHER
+  BOOKINGS
+  CALENDAR
+  MAP
+  CONTRACTORS
+  ADMINS
+  BOOKINGS_ORDERS
+  CLIENTS
+  TRAININGS
+  PRODUCTS
+  DISPUTES
+  NOTIFICATIONS
+  STATISTICS
+}
+
+enum WidgetSize {
+  SMALL
+  BIG
+  FULLSCREEN
+}
+
+enum SpecificDocumentType {
+  CERTIFICATE
+  INSURANCE
+}
+
+enum EarningRateType {
+  PERCENTAGE
+  POUNDS
+}
+
+enum CancellationFeeType {
+  PERCENTAGE
+  POUNDS
+}
+
+enum AdjustmentType {
+  PHOTOS
+  SQFT
+  BEDROOMS
+  CLIPS
+}
+
+enum ContractorMark {
+  BRONZE
+  SILVER
+  GOLD
+}
+
+enum ProductMark {
+  BRONZE
+  SILVER
+  GOLD
+  ALL
+}
+
+enum EquipmentType {
+  CAMERA
+  LENSE
+  TRIPOD
+  MICROPHONE
+  DRONE
+  CAMERA_360
+  MONOPOD
+  LASER_DISTANCE_MEASURER
+  GIMBLE
+  PHONE
+}
+
+enum EditRequestType {
+  SINGLE
+  GROUP_BY_CONTENT_TYPE
+}
+
+enum EditRequestStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum AdjustmentFeeType {
+  BONUS
+  PENALTY
+}
+
+enum AdjustmentFeeStatus {
+  PENDING
+  PAID
+}
+
+enum PaymentPreference {
+  INVOICES
+  STRIPE
+}
+
+model Admin {
+  id         String    @id @default(uuid()) @db.Uuid
+  email      String    @unique @db.VarChar(55)
+  password   String?   @db.VarChar(255)
+  avatar     String?   @db.Text
+  name       String    @db.VarChar(50)
+  surname    String    @db.VarChar(50)
+  role       String
+  access     Int       @default(1)
+  phone      String?   @db.VarChar(20)
+  address    String?   @db.VarChar(50)
+  archived   Boolean   @default(false)
+  archivedAt DateTime?
+
+  contractorNotifications Boolean @default(false)
+  clientNotifications     Boolean @default(false)
+  bookingsNotifications   Boolean @default(false)
+
+  forgot_password ForgotPasswordAdmin?
+  Training        Training[]
+  Contract        Contract[]
+
+  created_at         DateTime            @default(now())
+  updated_at         DateTime            @default(now()) @updatedAt
+  Booking            Booking[]
+  coupons            Coupon[]
+  contractorInvoices ContractorInvoice[]
+  clientInvoices     ClientInvoiceB2B[]
+  offices            Office[]
+  notifications      Notification[]
+  AdminWidget        AdminWidget[]
+  orderListColumns   OrderListColumns?
+  editRequest        EditRequest[]
+
+  @@map("admin")
+}
+
+model Widget {
+  id   String     @id @default(uuid()) @db.Uuid
+  name WidgetType
+  type WidgetSize
+
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @default(now()) @updatedAt
+  AdminWidget AdminWidget[]
+
+  @@map("widget")
+}
+
+model AdminWidget {
+  id       String @id @default(uuid()) @db.Uuid
+  admin    Admin  @relation(fields: [adminId], references: [id])
+  adminId  String @db.Uuid
+  widget   Widget @relation(fields: [widgetId], references: [id])
+  widgetId String @db.Uuid
+
+  size        WidgetSize @default(SMALL)
+  defaultSize WidgetSize @default(SMALL)
+
+  isActive        Boolean @default(true)
+  defaultIsActive Boolean @default(true)
+
+  position        Int @default(0)
+  defaultPosition Int @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("admin_widget")
+}
+
+model Contractor {
+  id        String         @id @default(uuid()) @db.Uuid
+  email     String         @unique @db.VarChar(55)
+  archived  Boolean        @default(false)
+  rating    Float          @default(0)
+  active    Boolean        @default(true)
+  radius    Int            @default(4)
+  priority  Boolean        @default(false)
+  name      String         @db.VarChar(50)
+  surname   String         @db.VarChar(50)
+  phone     String?        @db.VarChar(20)
+  password  String?        @db.VarChar(255)
+  avatar    String?        @db.Text
+  address   String?        @db.VarChar(500)
+  mark      ContractorMark @default(BRONZE)
+  postCode  String?
+  portfolio String?
+
+  isAvailabilitySet Boolean @default(false) @map("is_availability_set")
+  isProfileCreated  Boolean @default(false) @map("is_profile_created")
+
+  isStipeSelected Boolean? @map("is_stripe_selected")
+  stripeId        String?  @map("stripe_id")
+
+  onSite Boolean @default(true)
+
+  transportation ContractorTransportation @default(PUBLIC_TRANSPORTATION)
+
+  forgot_password ForgotPasswordContractor?
+  ChangeEmail     ChangeEmail?
+  skills          ContractorSkills[]
+  contracts       Contract[]
+  regions         ContractorRegion[]
+  availableDays   ContractorAvailableDay[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  paymentType PaymentType @default(STRIPE)
+
+  reviews               Review[]
+  Booking               Booking[]
+  contractorDisputes    ContractorDispute[]
+  contractorInvoices    ContractorInvoice[]
+  notifications         Notification[]
+  SpecificDocuments     SpecificDocuments[]
+  ContractorTraining    ContractorTraining[]
+  earningRates          EarningRate[]
+  Statistic             Statistic[]
+  locationId            String?                 @db.Uuid
+  ContractorLocation    ContractorLocation?
+  additionalProductType AdditionalProductType[]
+  UserDevices           UserDevices[]
+  ProductType           ProductType[]
+  contractorPayouts     ContractorPayout[]
+  adjustmentFees        AdjustmentFee[]
+  equipments            Equipment[]
+  vacations             Vacation[]
+
+  @@map("contractor")
+}
+
+model ContractorPayout {
+  id String @id @default(uuid()) @db.Uuid
+
+  contractorId String     @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  amount     Int
+  transferId String @map("transfer_id")
+
+  payoutId String? @map("payout_id")
+
+  status ContractorPayoutStatus @default(PENDING)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
+
+model SpecificDocuments {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(255)
+  url  String @db.VarChar(200)
+
+  expiredAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  type SpecificDocumentType @default(CERTIFICATE)
+
+  contractorId String     @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  @@map("specific_documents")
+}
+
+model ContractorAvailableDay {
+  id        String   @id @default(uuid()) @db.Uuid
+  date_time DateTime @default(now())
+  from      Int[]
+  to        Int[]
+
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+  contractor_id String     @db.Uuid
+}
+
+model ContractorRegion {
+  contractorId String     @db.Uuid
+  regionId     String     @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+  region       Region     @relation(fields: [regionId], references: [id], onDelete: Cascade)
+
+  isHome Boolean @default(false) @map("is_home")
+
+  @@id([contractorId, regionId])
+}
+
+enum VacationType {
+  VACATION
+  SICK_LEAVE
+  OTHER
+}
+
+model Vacation {
+  id           String     @id @default(uuid()) @db.Uuid
+  contractorId String     @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  vacationType VacationType @default(VACATION) @map("vacation_type")
+  reason       String?      @map("reason")
+
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("vacation")
+}
+
+model Region {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(100)
+
+  contractorRegions ContractorRegion[]
+  Booking           Booking[]
+}
+
+model Contract {
+  id   String  @id @default(uuid()) @db.Uuid
+  name String  @db.VarChar(100)
+  file String?
+
+  start_date DateTime @default(now())
+  end_date   DateTime @default(now())
+
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+  contractor_id String     @db.Uuid
+
+  admin_id String @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+}
+
+model ContractorSkills {
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+  contractor_id String     @db.Uuid
+
+  skill    Skills @relation(fields: [skill_id], references: [id], onDelete: Cascade)
+  skill_id String @db.Uuid
+
+  confirmed Boolean @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@id([contractor_id, skill_id])
+  @@map("contractor_skills")
+}
+
+model Skills {
+  id String @id @default(uuid()) @db.Uuid
+
+  name ContractorSkillNama
+  icon String
+
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @default(now()) @updatedAt
+  ContractorSkills  ContractorSkills[]
+  productSkills     ProductSkills[]
+  productTypeSkills ProductTypeSkills[]
+}
+
+model ForgotPasswordContractor {
+  id String @id @default(uuid()) @db.Uuid
+
+  contractor_id String     @unique @db.Uuid
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@index([contractor_id])
+  @@map("forgot_password_contractor")
+}
+
+model ForgotPasswordClient {
+  id String @id @default(uuid()) @db.Uuid
+
+  b2cClient_id String?     @unique @db.Uuid
+  b2cClient    B2CClients? @relation(fields: [b2cClient_id], references: [id], onDelete: Cascade)
+
+  b2bClient_id String?     @unique @db.Uuid
+  b2bClient    B2BClients? @relation(fields: [b2bClient_id], references: [id], onDelete: Cascade)
+
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@index([b2cClient_id])
+  @@index([b2bClient_id])
+  @@map("forgot_password_client")
+}
+
+model ForgotPasswordAdmin {
+  id String @id @default(uuid()) @db.Uuid
+
+  admin_id String @unique @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@index([admin_id])
+  @@map("forgot_password_admin")
+}
+
+model ChangeEmail {
+  id Int @id @default(autoincrement())
+
+  contractor_id String     @unique @db.Uuid
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+
+  oldEmailCode String @db.Text
+  newEmailCode String @db.Text
+
+  newEmail String @db.VarChar(50)
+
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@index([contractor_id])
+  @@map("change_email")
+}
+
+model ContractorListColumns {
+  id Int @id @default(autoincrement())
+
+  type    Boolean @default(true)
+  skills  Boolean @default(true)
+  mark    Boolean @default(true)
+  status  Boolean @default(true)
+  address Boolean @default(true)
+  rating  Boolean @default(true)
+
+  @@map("contractor_list_columns")
+}
+
+model ContractorStatisticsColums {
+  id              Int     @id @default(autoincrement())
+  photoSLA        Boolean @default(true)
+  sketchSLA       Boolean @default(true)
+  contentSLA      Boolean @default(true)
+  floorplanSLA    Boolean @default(true)
+  earning         Boolean @default(true)
+  avgComplRate    Boolean @default(true)
+  avgPhotoCapture Boolean @default(true)
+  avgJobPerWeek   Boolean @default(true)
+  totalJobsDone   Boolean @default(true)
+  howOftenOnTime  Boolean @default(true)
+
+  @@map("cotractor_statistics_columns")
+}
+
+model Office {
+  id                  String       @id @default(uuid()) @db.Uuid
+  title               String       @db.VarChar(150)
+  name                String       @db.VarChar(100)
+  surname             String       @db.VarChar(100)
+  numberOfWorkers     Int
+  phone_number        String       @default("") @db.VarChar(30)
+  email               String       @default("") @db.VarChar(50)
+  address_coordinates String?      @db.VarChar(200)
+  address             String       @default("") @db.VarChar(200)
+  billing_address     String       @default("") @db.VarChar(200)
+  officeStatus        ClientStatus @default(NEW)
+  status              Boolean      @default(false)
+
+  admin_id String @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  b2BClientsId String?     @db.Uuid
+  b2BClients   B2BClients? @relation(fields: [b2BClientsId], references: [id])
+
+  subbrandId String?   @db.Uuid
+  Subbrand   Subbrand? @relation(fields: [subbrandId], references: [id])
+
+  propertyTypes    PropertyType[]
+  officeType       OfficeType       @default(RESIDENTIAL)
+  officeClientType OfficeClientType @default(SALES)
+
+  ClientInvoices ClientInvoiceB2B[]
+
+  Booking                 Booking[]
+  ProductTypeSpecialPrice ProductTypeSpecialPrice[]
+
+  paymentPreferences PaymentPreference @default(INVOICES)
+  workers            WorkerOnOffice[]
+
+  PackageTargets      PackageTargets[]
+  BookingGroup        BookingGroup[]
+  officePreference    OfficePreference[]
+  officeHiddenProducts OfficeHiddenProduct[]
+}
+
+model OfficeHiddenProduct {
+  id        String @id @default(uuid()) @db.Uuid
+  officeId  String @db.Uuid @map("office_id")
+  productId String @db.Uuid @map("product_id")
+
+  office  Office  @relation(fields: [officeId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([officeId, productId])
+}
+
+model Worker {
+  id        String @id @default(uuid()) @db.Uuid
+  firstName String
+  lastName  String
+  email     String @db.VarChar(100)
+  password  String @default("temporary_password") @db.VarChar(255)
+
+  phoneNumber              String                        @db.VarChar(30)
+  role                     String                        @db.VarChar(50)
+  notification_preferences NotificationUserPreferences[]
+
+  created_at   DateTime         @default(now())
+  updated_at   DateTime         @default(now()) @updatedAt
+  offices      WorkerOnOffice[]
+  BookingGroup BookingGroup[]
+  Booking      Booking[]
+  Notification Notification[]
+}
+
+model WorkerOnOffice {
+  worker_id String @db.Uuid
+  office_id String @db.Uuid
+  worker    Worker @relation(fields: [worker_id], references: [id], onDelete: Cascade)
+  office    Office @relation(fields: [office_id], references: [id], onDelete: Cascade)
+
+  assigned_at DateTime @default(now())
+
+  @@id([worker_id, office_id])
+}
+
+model ClientDispute {
+  id String @id @default(uuid()) @db.Uuid
+
+  theme       DisputeTheme          @default(BOOKING)
+  status      DisputeStatus         @default(IN_PROGRESS)
+  category    ClientDisputeCategory @default(BOOKING_ISSUE)
+  description String                @default("") @db.VarChar(1000)
+  created_at  DateTime              @default(now())
+  updated_at  DateTime              @default(now())
+  archived    Boolean               @default(false)
+
+  b2CClientId String?     @db.Uuid
+  b2CClient   B2CClients? @relation(fields: [b2CClientId], references: [id])
+  b2BClientId String?     @db.Uuid
+  b2BClient   B2BClients? @relation(fields: [b2BClientId], references: [id])
+
+  bookingGroupId String?       @db.Uuid
+  bookingGroup   BookingGroup? @relation(fields: [bookingGroupId], references: [id], onDelete: Cascade)
+
+  clientInvoiceB2BId String?              @db.Uuid
+  clientInvoiceB2B   ClientInvoiceB2B?    @relation(fields: [clientInvoiceB2BId], references: [id], onDelete: Cascade)
+  editRequests       EditRequest[]
+  editRequestSession EditRequestSession[]
+}
+
+model ClientInvoiceB2B {
+  id String @id @default(uuid()) @db.Uuid
+
+  sum             String        @default("") @db.VarChar(50)
+  billing_address String        @default("") @db.VarChar(200)
+  status          InvoiceStatus @default(AWAITING_PAYMENT)
+  payment_method  PaymentMethod @default(BANK_TRANSFER)
+  file            String?
+
+  stripeInvoiceId String? @map("stripe_invoice_id") @db.VarChar(100)
+  xeroInvoiceId   String? @map("xero_invoice_id") @db.VarChar(100)
+
+  admin_id String @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  officeId String @db.Uuid
+  office   Office @relation(fields: [officeId], references: [id], onDelete: Cascade)
+
+  clientDisputes ClientDispute[]
+
+  bookingGroups BookingGroup[] @relation("ClientInvoiceB2BToBookingGroups")
+
+  created_at DateTime @default(now())
+}
+
+model ContractorDispute {
+  id String @id @default(uuid()) @db.Uuid
+
+  theme       DisputeTheme              @default(BOOKING)
+  status      DisputeStatus             @default(IN_PROGRESS)
+  category    ContractorDisputeCategory @default(CAPTURE_ISSUE)
+  description String                    @default("") @db.VarChar(1000)
+  created_at  DateTime                  @default(now())
+  updated_at  DateTime                  @default(now())
+  archived    Boolean                   @default(false)
+
+  address String @default("") @db.VarChar(200)
+  // address from booking for easier grouping
+
+  contractor_id String     @db.Uuid
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+
+  report Report?
+
+  contractorInvoiceId String?            @db.Uuid
+  contractorInvoice   ContractorInvoice? @relation(fields: [contractorInvoiceId], references: [id], onDelete: Cascade)
+
+  bookingId String  @db.Uuid
+  Booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+enum ReportType {
+  photo
+  floorplan
+  video
+  drone
+  epc
+}
+
+model Report {
+  id String @id @default(uuid()) @db.Uuid
+
+  type      ReportType
+  location  String     @db.VarChar(100)
+  problem   String     @db.VarChar(100)
+  solution  String     @db.VarChar(100)
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  isCancellation Boolean @default(false) @map("is_cancellation")
+
+  attachments String[]
+
+  contractorDispute   ContractorDispute @relation(fields: [contractorDisputeId], references: [id])
+  contractorDisputeId String            @unique @map("contractor_dispute_id") @db.Uuid
+}
+
+model ContractorInvoice {
+  id String @id @default(uuid()) @db.Uuid
+
+  name   String            @default("") @db.VarChar(100)
+  sum    Float             @default(0)
+  status InvoiceContractor @default(PENDING)
+  file   String?
+
+  admin_id String @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  contractor_id String     @db.Uuid
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+
+  bookingId String  @db.Uuid
+  Booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  cancellationId String?      @db.Uuid
+  cancellation   Cancellaton? @relation(fields: [cancellationId], references: [id], onDelete: Cascade)
+
+  contractorDisputes ContractorDispute[]
+
+  created_at DateTime @default(now())
+}
+
+model Cancellaton {
+  id String @id @default(uuid()) @db.Uuid
+
+  bookingId String  @db.Uuid
+  Booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  reason  String @default("") @db.VarChar(100)
+  comment String @default("") @db.VarChar(100)
+
+  attachments String[]
+
+  contractorInvoice ContractorInvoice[]
+
+  cancelled_at DateTime @default(now())
+}
+
+model Notification {
+  id String @id @default(uuid()) @db.Uuid
+
+  title    String                @default("") @db.VarChar(100)
+  message  String?               @db.Text
+  type     NotificationType      @default(CONTRACTOR)
+  urgency  NotificationUrgency   @default(NORMAL)
+  category NotificationCategory?
+
+  contractorId String?     @db.Uuid
+  contractor   Contractor? @relation(fields: [contractorId], references: [id])
+
+  bookingId String?  @db.Uuid
+  Booking   Booking? @relation(fields: [bookingId], references: [id])
+
+  bookingGroupId String?       @db.Uuid
+  bookingGroup   BookingGroup? @relation(fields: [bookingGroupId], references: [id], onDelete: SetNull)
+
+  b2CClientsId String?     @db.Uuid
+  b2CClients   B2CClients? @relation(fields: [b2CClientsId], references: [id])
+
+  b2BClientsId String?     @db.Uuid
+  b2BClients   B2BClients? @relation(fields: [b2BClientsId], references: [id])
+
+  workerId String? @db.Uuid
+  worker   Worker? @relation(fields: [workerId], references: [id])
+
+  date_sent  DateTime @default(now())
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  readAdminId String? @db.Uuid
+  readAdmin   Admin?  @relation(fields: [readAdminId], references: [id])
+
+  isRead Boolean @default(false)
+}
+
+model NotificationUserPreferences {
+  id String @id @default(uuid()) @db.Uuid
+
+  b2BClientId String?     @db.Uuid
+  b2CClientId String?     @db.Uuid
+  b2BClient   B2BClients? @relation(fields: [b2BClientId], references: [id])
+  b2CClient   B2CClients? @relation(fields: [b2CClientId], references: [id])
+
+  category NotificationCategory
+  enabled  Boolean              @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  Worker     Worker?  @relation(fields: [workerId], references: [id])
+  workerId   String?  @db.Uuid
+}
+
+model Training {
+  id String @id @default(uuid()) @db.Uuid
+
+  admin_id String @db.Uuid
+  admin    Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  title    String
+  category TrainingCategory
+
+  file String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  reviews            Review[]
+  ContractorTraining ContractorTraining[]
+
+  @@map("training")
+}
+
+model ContractorTraining {
+  contractor_id String @db.Uuid
+  training_id   String @db.Uuid
+
+  completed Boolean @default(false)
+
+  contractor Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+  training   Training   @relation(fields: [training_id], references: [id], onDelete: Cascade)
+
+  @@id([contractor_id, training_id])
+  @@map("contractor_training")
+}
+
+model Review {
+  id String @id @default(uuid()) @db.Uuid
+
+  contractor_id String     @db.Uuid
+  contractor    Contractor @relation(fields: [contractor_id], references: [id], onDelete: Cascade)
+
+  training_id String   @unique @db.Uuid
+  training    Training @relation(fields: [training_id], references: [id], onDelete: Cascade)
+
+  text String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
+
+model B2BClients {
+  id                       String                    @id @default(uuid()) @db.Uuid
+  password                 String                    @default("temporary_password") @db.VarChar(255)
+  firstName                String?
+  lastName                 String?
+  companyName              String?
+  email                    String                    @unique
+  phoneNumber              String
+  address                  String
+  billingAddress           String?
+  officeStatus             ClientStatus              @default(NEW)
+  status                   Boolean                   @default(false)
+  archived                 Boolean                   @default(false)
+  Booking                  Booking[]
+  productTypeSpecialPrices ProductTypeSpecialPrice[]
+  clientDisputes           ClientDispute[]
+  notifications            Notification[]
+  offices                  Office[]
+  subbrands                Subbrand[]                @relation("ParentBrand")
+
+  xeroContactId String? @map("xero_contact_id") @db.VarChar(100)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  Subbrand                    Subbrand[]
+  ForgotPasswordClient        ForgotPasswordClient?
+  NotificationUserPreferences NotificationUserPreferences[]
+  InvoiceSentToStripe         InvoiceSentToStripe[]
+  BookingGroup                BookingGroup[]
+  PackageTargets              PackageTargets[]
+  clientB2BPreference         ClientB2BPreference[]
+}
+
+model Subbrand {
+  id             String  @id @default(uuid()) @db.Uuid
+  companyName    String
+  email          String?
+  phoneNumber    String?
+  address        String?
+  billingAddress String?
+  archived       Boolean @default(false)
+
+  parentBrand   B2BClients @relation(fields: [parentBrandId], references: [id])
+  parentBrandId String     @db.Uuid
+  offices       Office[]
+  bookings      Booking[]  @relation("SubbrandBookings")
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @default(now()) @updatedAt
+
+  B2BClients B2BClients[] @relation("ParentBrand")
+
+  Booking Booking[]
+
+  ProductTypeSpecialPrice ProductTypeSpecialPrice[]
+  PackageTargets          PackageTargets[]
+}
+
+model B2CClients {
+  id                       String                    @id @default(uuid()) @db.Uuid
+  password                 String                    @default("temporary_password") @db.VarChar(255)
+  firstName                String
+  lastName                 String
+  email                    String                    @unique
+  phoneNumber              String
+  address                  String
+  postCode                 String?
+  mark                     ClientStatus              @default(NEW)
+  status                   Boolean                   @default(false)
+  archived                 Boolean                   @default(false)
+  Booking                  Booking[]
+  productTypeSpecialPrices ProductTypeSpecialPrice[]
+
+  clientDisputes ClientDispute[]
+  notifications  Notification[]
+
+  created_at                  DateTime                      @default(now())
+  updated_at                  DateTime                      @default(now()) @updatedAt
+  ForgotPasswordClient        ForgotPasswordClient?
+  NotificationUserPreferences NotificationUserPreferences[]
+  BookingGroup                BookingGroup[]
+  clientB2CPreference         ClientB2CPreference[]
+}
+
+model Preference {
+  id          String             @id @default(uuid()) @db.Uuid
+  name        String             @db.VarChar(255)
+  category    CategoryPreference
+  description String
+
+  clientsB2C ClientB2CPreference[]
+  clientsB2B ClientB2BPreference[]
+  offices    OfficePreference[]
+  bookings   BookingPreferenceTable[]
+}
+
+model ClientB2BPreference {
+  id           String     @id @default(uuid()) @db.Uuid
+  b2bClientId  String     @db.Uuid
+  preferenceId String     @db.Uuid
+  client       B2BClients @relation(fields: [b2bClientId], references: [id])
+  preference   Preference @relation(fields: [preferenceId], references: [id])
+
+  @@unique([b2bClientId, preferenceId])
+}
+
+model ClientB2CPreference {
+  id           String     @id @default(uuid()) @db.Uuid
+  clientId     String     @db.Uuid
+  preferenceId String     @db.Uuid
+  client       B2CClients @relation(fields: [clientId], references: [id])
+  preference   Preference @relation(fields: [preferenceId], references: [id])
+
+  @@unique([clientId, preferenceId])
+}
+
+model OfficePreference {
+  id           String     @id @default(uuid()) @db.Uuid
+  officeId     String     @db.Uuid
+  preferenceId String     @db.Uuid
+  office       Office     @relation(fields: [officeId], references: [id])
+  preference   Preference @relation(fields: [preferenceId], references: [id])
+
+  @@unique([officeId, preferenceId])
+}
+
+model BookingPreferenceTable {
+  id           String     @id @default(uuid()) @db.Uuid
+  bookingId    String     @db.Uuid
+  preferenceId String     @db.Uuid
+  booking      Booking    @relation(fields: [bookingId], references: [id])
+  preference   Preference @relation(fields: [preferenceId], references: [id])
+}
+
+enum ComparisonOperator {
+  GREATER_THAN_OR_EQUAL
+  LESS_THAN_OR_EQUAL
+}
+
+model Adjustments {
+  id String @id @default(uuid()) @db.Uuid
+
+  type               AdjustmentType     @default(PHOTOS)
+  value              Int                @default(50)
+  comparisonOperator ComparisonOperator @default(GREATER_THAN_OR_EQUAL)
+
+  productTypeId String?      @unique @db.Uuid
+  productType   ProductType? @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+
+  additionalProductTypeId String?                @unique @db.Uuid
+  additionalProductType   AdditionalProductType? @relation(fields: [additionalProductTypeId], references: [id], onDelete: Cascade)
+}
+
+model ProductType {
+  id                          String                    @id @default(uuid()) @db.Uuid
+  name                        String                    @db.VarChar
+  requires_on_site_contractor Boolean                   @default(true)
+  description_contractor      String?                   @db.Text
+  description_client          String?                   @db.Text
+  price                       Float                     @default(0)
+  duration                    Int
+  product                     Product                   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId                   String                    @db.Uuid
+  stripeId                    String                    @default("") @db.VarChar(100)
+  productTypeSkills           ProductTypeSkills[]
+  specialPrices               ProductTypeSpecialPrice[]
+  created_at                  DateTime                  @default(now())
+  updated_at                  DateTime                  @default(now()) @updatedAt
+  mark                        ProductMark               @default(ALL)
+  equipment                   EquipmentType[]
+
+  contractorId String?     @db.Uuid
+  contractor   Contractor? @relation(fields: [contractorId], references: [id])
+
+  earningRate            EarningRate?           @relation(name: "defaultEarningRate")
+  individualEarningRates EarningRate[]
+  PackageProductType     PackageProductType[]
+  adjustments            Adjustments?
+  additionalProduct      AdditionalProductType?
+  cancellationFee        CancellationFee?
+  BookingToProductType   BookingToProductType[]
+  ProductTypeExample     ProductTypeExample[]
+}
+
+model ProductTypeExample {
+  id            String      @id @default(uuid()) @db.Uuid
+  productTypeId String      @map("product_type_id") @db.Uuid
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  name          String      @db.VarChar(255)
+  url           String      @db.VarChar(512)
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  @@map("product_type_example")
+}
+
+model AdditionalProductType {
+  id String @id @default(uuid()) @db.Uuid
+
+  productTypeId String       @unique @db.Uuid
+  productType   ProductType  @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  earningRate   EarningRate?
+  adjustments   Adjustments?
+
+  contractorId String?     @db.Uuid
+  contractor   Contractor? @relation(fields: [contractorId], references: [id])
+}
+
+model PackageProductType {
+  packageId     String @db.Uuid
+  productTypeId String @db.Uuid
+
+  package     Package     @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  productType ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+
+  @@id([packageId, productTypeId])
+}
+
+model EarningRate {
+  id String @id @default(uuid()) @db.Uuid
+
+  rateType        EarningRateType @default(PERCENTAGE)
+  earningRate     Float           @default(50)
+  additionalPrice Float?          @map("additional_price")
+
+  individualRateProductTypeId String?      @db.Uuid
+  individualRateProductType   ProductType? @relation(fields: [individualRateProductTypeId], references: [id], onDelete: Cascade)
+
+  defaultRateProductTypeId String?      @unique @db.Uuid
+  defaultRateProductType   ProductType? @relation(name: "defaultEarningRate", fields: [defaultRateProductTypeId], references: [id], onDelete: Cascade)
+
+  contractorId String?     @db.Uuid
+  contractor   Contractor? @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  additionalProductTypeId String?                @unique @db.Uuid
+  additionalProductType   AdditionalProductType? @relation(fields: [additionalProductTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([individualRateProductTypeId, contractorId])
+}
+
+model CancellationFee {
+  id String @id @default(uuid()) @db.Uuid
+
+  feeType CancellationFeeType @default(PERCENTAGE)
+  value   Float               @default(50)
+
+  productTypeId String?      @unique @db.Uuid
+  productType   ProductType? @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id                       String                @id @default(uuid()) @db.Uuid
+  name                     String                @db.VarChar(100)
+  price                    Float                 @default(0)
+  requiresOnSiteContractor Boolean               @default(true)
+  archived                 Boolean               @default(false)
+  archivedAt               DateTime?
+  productSkills            ProductSkills[]
+  packageProducts          PackageProducts[]
+  productTypes             ProductType[]
+  created_at               DateTime              @default(now())
+  updated_at               DateTime              @default(now()) @updatedAt
+  officeHiddenProducts     OfficeHiddenProduct[]
+}
+
+model ProductTypeSpecialPrice {
+  id            String      @id @default(uuid()) @db.Uuid
+  productTypeId String      @db.Uuid
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  clientB2BId   String?     @db.Uuid
+  clientB2CId   String?     @db.Uuid
+  subbrandId    String?     @db.Uuid
+  officeId      String?     @db.Uuid
+  price         Float
+  createdAt     DateTime    @default(now())
+
+  clientB2B B2BClients? @relation(fields: [clientB2BId], references: [id], onDelete: Cascade)
+  clientB2C B2CClients? @relation(fields: [clientB2CId], references: [id], onDelete: Cascade)
+  subbrand  Subbrand?   @relation(fields: [subbrandId], references: [id], onDelete: Cascade)
+  office    Office?     @relation(fields: [officeId], references: [id], onDelete: Cascade)
+
+  @@unique([productTypeId, clientB2BId])
+  @@unique([productTypeId, clientB2CId])
+  @@unique([productTypeId, subbrandId])
+  @@unique([productTypeId, officeId])
+}
+
+model ProductTypeSkills {
+  productTypeId String      @db.Uuid
+  skillId       String      @db.Uuid
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  skill         Skills      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([productTypeId, skillId])
+}
+
+model ProductSkills {
+  productId String  @db.Uuid
+  skillId   String  @db.Uuid
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  skill     Skills  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([productId, skillId])
+}
+
+model Package {
+  id       String            @id @default(uuid()) @db.Uuid
+  title    String
+  price    Int
+  products PackageProducts[]
+  targets  PackageTargets[]
+
+  stripeId    String  @default("") @db.VarChar(100)
+  isForB2C    Boolean @default(false)
+  description String?
+  picture     String?
+  pictureName String?
+
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now()) @updatedAt
+  Booking            Booking[]
+  PackageProductType PackageProductType[]
+}
+
+model PackageProducts {
+  packageId String  @db.Uuid
+  productId String  @db.Uuid
+  package   Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([packageId, productId])
+}
+
+model PackageTargets {
+  id        String @id @default(uuid()) @db.Uuid
+  packageId String @db.Uuid
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  Office   Office? @relation(fields: [officeId], references: [id])
+  officeId String? @db.Uuid
+
+  b2bClientId String?     @db.Uuid
+  b2bClient   B2BClients? @relation(fields: [b2bClientId], references: [id], onDelete: Cascade)
+
+  subbrandId String?   @db.Uuid
+  subbrand   Subbrand? @relation(fields: [subbrandId], references: [id], onDelete: Cascade)
+}
+
+model Coupon {
+  id           String         @id @default(uuid()) @db.Uuid
+  code         String         @unique
+  discount     Int
+  discountType DiscountType   @default(PERCENTAGE)
+  start_date   DateTime       @default(now())
+  end_date     DateTime       @default(now())
+  owner_id     String         @db.Uuid
+  owner        Admin          @relation(fields: [owner_id], references: [id])
+  type         CouponType
+  title        String
+  targets      CouponTarget[]
+  minAmount    Int?
+  minOrders    Int?
+  stripeId     String         @default("") @db.VarChar(100)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
+
+model CouponTarget {
+  id         String @id @default(uuid()) @db.Uuid
+  couponId   String @db.Uuid
+  coupon     Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  targetId   String @db.Uuid
+  targetType Target
+  target     String
+
+  @@index([couponId])
+}
+
+model Booking {
+  id                 String         @id @default(uuid()) @db.Uuid
+  bookingType        BookingType    @default(BOOKING)
+  created_at         DateTime       @default(now())
+  address            String?        @db.VarChar(500)
+  archived           Boolean        @default(false)
+  property_type      PropertyType?  @default(FLAT_APARTMENT)
+  number_of_bedrooms String         @default("3") @db.VarChar(10)
+  square_footage     String?        @db.VarChar(30)
+  date_time          DateTime       @default(now())
+  total_sum          String         @default("300") @db.VarChar(30)
+  duration           Int?
+  durationInMinutes  Int?           @default(0) @map("duration_in_minutes")
+  booking_status     BookingStatus  @default(BOOKED)
+  booking_stage      BookingStage[] @default([])
+  contractorId       String?        @db.Uuid
+  adminId            String?        @db.Uuid
+  b2CClientsId       String?        @db.Uuid
+  admin              Admin?         @relation(fields: [adminId], references: [id])
+  b2CClients         B2CClients?    @relation(fields: [b2CClientsId], references: [id])
+  b2BClients         B2BClients?    @relation(fields: [b2BClientsId], references: [id])
+  contractor         Contractor?    @relation(fields: [contractorId], references: [id])
+  subbrandId         String?        @db.Uuid
+  subbrand           Subbrand?      @relation(fields: [subbrandId], references: [id], onDelete: Cascade)
+  officeId           String?        @db.Uuid
+  office             Office?        @relation(fields: [officeId], references: [id], onDelete: Cascade)
+
+  workerId String? @db.Uuid
+  worker   Worker? @relation(fields: [workerId], references: [id], onDelete: Cascade)
+
+  runningLate Int? @map("running_late")
+
+  orderInContractorList Int @default(0)
+
+  propertyDetails String?            @db.VarChar(200)
+  propertyAccess  PropertyAccessType @default(APPOINTMENT)
+
+  trusteeName         String? @db.VarChar(200)
+  trusteePhone        String? @db.VarChar(30)
+  trusteeRelationship String? @db.VarChar(200)
+
+  coupon String? @db.VarChar(30)
+
+  isAlarm      Boolean @default(false)
+  alarmCode    String? @db.VarChar(200)
+  alarmDetails String? @db.VarChar(200)
+
+  key_location_address String?      @db.VarChar(200)
+  keyLocation          KeyLocation?
+  key_instruction      String?      @db.VarChar(200)
+  keysDateTime         DateTime?
+
+  isEditRequest Boolean @default(false)
+
+  contractorDisputes ContractorDispute[]
+  contractorInvoices ContractorInvoice[]
+  notifications      Notification[]
+  cancellatons       Cancellaton[]
+  rawMaterial        RawMaterial[]
+  editedMaterial     EditedMaterial[]
+
+  b2BClientsId String? @db.Uuid
+  region       Region? @relation(fields: [regionId], references: [id])
+  regionId     String? @db.Uuid
+
+  repeat              Boolean   @default(false)
+  contractorArrivedAt DateTime?
+  bookingCompletedAt  DateTime? @map("booking_completed_at")
+  rating              Float     @default(0)
+
+  Subbrand               Subbrand[]               @relation("SubbrandBookings")
+  BookingStageHistory    BookingStageHistory[]
+  BookingCGIClientPhotos BookingCGIClientPhotos[]
+  BookingReview          BookingReview[]
+  Attachment             Attachment[]
+  location               Location?
+  bookingGroup           BookingGroup             @relation(fields: [bookingGroupId], references: [id])
+  bookingGroupId         String                   @db.Uuid
+  durationSettings       BookingDuration[]        @default([])
+  preferences            BookingPreference[]      @default([])
+
+  packageId String?  @db.Uuid
+  package   Package? @relation(fields: [packageId], references: [id])
+
+  BookingToProductType BookingToProductType[]
+
+  isContractorPaid Boolean @default(false) @map("is_contractor_paid")
+
+  floorplanChecklist Json?                @db.JsonB
+  EditRequest        EditRequest[]
+  EditRequestSession EditRequestSession[]
+  adjustmentFees     AdjustmentFee[]
+
+  bookingRoute           BookingRoute?
+  BookingPreferenceTable BookingPreferenceTable[]
+}
+
+model BookingToProductType {
+  bookingId     String @map("booking_id") @db.Uuid
+  productTypeId String @map("product_type_id") @db.Uuid
+
+  isAdditional Boolean @default(false)
+
+  booking     Booking     @relation(fields: [bookingId], references: [id])
+  productType ProductType @relation(fields: [productTypeId], references: [id])
+
+  @@id([bookingId, productTypeId])
+  @@map("booking_to_product_type")
+}
+
+model BookingGroup {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  b2BClients   B2BClients? @relation(fields: [b2BClientsId], references: [id])
+  b2BClientsId String?     @map("b2b_clients_id") @db.Uuid
+
+  b2CClients   B2CClients? @relation(fields: [b2CClientsId], references: [id])
+  b2CClientsId String?     @map("b2c_clients_id") @db.Uuid
+
+  officeId String? @map("office_id") @db.Uuid
+  office   Office? @relation(fields: [officeId], references: [id])
+
+  workerId String? @map("worker_id") @db.Uuid
+  worker   Worker? @relation(fields: [workerId], references: [id])
+
+  sumOfPrices         Int     @default(0) @map("sum_of_prices")
+  stripePaymentIntent String? @map("stripe_payment_intent") @db.VarChar(100)
+
+  paymentPreference PaymentPreference @default(STRIPE) @map("payment_preference")
+
+  invoicedAt DateTime? @map("invoiced_at")
+  isPaid     Boolean   @default(false) @map("is_paid")
+
+  bookings Booking[]
+
+  clientInvoiceB2BId String?           @db.Uuid
+  clientInvoiceB2B   ClientInvoiceB2B? @relation("ClientInvoiceB2BToBookingGroups", fields: [clientInvoiceB2BId], references: [id], onDelete: Cascade)
+
+  Notification  Notification[]
+  clientDispute ClientDispute[]
+}
+
+model BookingCGIClientPhotos {
+  id            String   @id @default(uuid()) @db.Uuid
+  bookingId     String   @db.Uuid
+  mainPhoto     String   @db.VarChar(500)
+  description   String   @db.VarChar(500)
+  roomType      RoomType
+  examplePhotos String[] @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  submittedMaterial EditedMaterial?
+
+  @@map("booking_cgi_client_photos")
+}
+
+model BookingReview {
+  id         String   @id @default(uuid()) @db.Uuid
+  bookingId  String   @db.Uuid
+  rating     Int      @default(0)
+  comment    String?  @db.VarChar(500)
+  reviewDate DateTime @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  @@map("booking_review")
+}
+
+model Attachment {
+  id        String @id @default(uuid()) @db.Uuid
+  bookingId String @map("booking_id") @db.Uuid
+  name      String @default("") @db.VarChar(255)
+  size      Float  @default(0)
+  url       String @db.VarChar(200)
+
+  createdAt DateTime @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+}
+
+model KeyLocation {
+  id        String  @id @default(uuid()) @db.Uuid
+  placeId   String? @map("place_id") @db.VarChar(256)
+  latitude  Float
+  longitude Float
+
+  bookingId String  @unique @map("booking_id") @db.Uuid
+  booking   Booking @relation(fields: [bookingId], references: [id])
+}
+
+model ContractorLocation {
+  id        String  @id @default(uuid()) @db.Uuid
+  placeId   String? @map("place_id") @db.VarChar(256)
+  latitude  Float
+  longitude Float
+
+  contractorId String     @unique @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+}
+
+model Location {
+  id        String  @id @default(uuid()) @db.Uuid
+  placeId   String? @map("place_id") @db.VarChar(256)
+  latitude  Float
+  longitude Float
+
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId String  @unique @map("booking_id") @db.Uuid
+}
+
+model BookingStageHistory {
+  id        String       @id @default(uuid()) @db.Uuid
+  bookingId String       @db.Uuid
+  stage     BookingStage
+  timestamp DateTime     @default(now())
+  booking   Booking      @relation(fields: [bookingId], references: [id])
+
+  @@index([bookingId])
+}
+
+model RawMaterial {
+  id           String              @id @default(uuid()) @db.Uuid
+  url          String              @db.VarChar(200)
+  thumbnailUrl String?             @db.VarChar(200)
+  contentType  MaterialTypeContent @default(PHOTOS)
+  fileSize     Int?                @db.Integer
+  rawType      MaterialRawType     @default(RAW)
+
+  groupId Int? @db.Integer
+
+  takenAt DateTime? @db.Timestamp(6)
+
+  name            String            @db.VarChar(100)
+  bookingId       String            @db.Uuid
+  Booking         Booking           @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  RawMaterialVote RawMaterialVote[]
+
+  @@index([bookingId])
+}
+
+model EditedMaterial {
+  id           String              @id @default(uuid()) @db.Uuid
+  url          String              @db.VarChar(400)
+  thumbnailUrl String?             @db.VarChar(400)
+  contentType  MaterialTypeContent @default(PHOTOS)
+  fileSize     Int?                @db.Integer
+  mimetype     String?
+
+  name               String               @db.VarChar(400)
+  isHeroShoot        Boolean              @default(false)
+  bookingId          String               @db.Uuid
+  booking            Booking              @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  EditedMaterialVote EditedMaterialVote[]
+
+  isAdminUploaded Boolean @default(false)
+  isCorrection    Boolean @default(false)
+
+  clientPhotoId String?                 @unique @db.Uuid
+  clientPhoto   BookingCGIClientPhotos? @relation(fields: [clientPhotoId], references: [id], onDelete: Cascade)
+  editRequest   EditRequest?
+
+  @@index([bookingId])
+}
+
+model EditRequest {
+  id              String          @id @default(uuid()) @db.Uuid
+  requestedChange String          @default("")
+  type            EditRequestType @default(SINGLE)
+
+  editedMaterialId String?         @unique @db.Uuid
+  editedMaterial   EditedMaterial? @relation(fields: [editedMaterialId], references: [id], onDelete: Cascade)
+
+  bookingId   String?              @db.Uuid
+  booking     Booking?             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  contentType MaterialTypeContent?
+
+  status EditRequestStatus @default(ACTIVE)
+
+  editRequestMaterials EditRequestMaterial[]
+
+  adminId String? @db.Uuid
+  admin   Admin?  @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  session   EditRequestSession? @relation(fields: [sessionId], references: [id])
+  sessionId String?             @db.Uuid
+
+  orderLineId String?         @db.Uuid
+  orderLine   ESoftOrderLine? @relation(fields: [orderLineId], references: [id])
+
+  clientDisputeId String?        @db.Uuid
+  clientDispute   ClientDispute? @relation(fields: [clientDisputeId], references: [id], onDelete: Cascade)
+
+  clientUploadedPhotoUrl String? @db.VarChar(2048)
+
+  createdAt DateTime @default(now())
+}
+
+model EditRequestSession {
+  id        String  @id @default(uuid()) @db.Uuid
+  bookingId String  @db.Uuid
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  clientDisputeId String?        @db.Uuid
+  clientDispute   ClientDispute? @relation(fields: [clientDisputeId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime      @default(now())
+  editRequests EditRequest[]
+}
+
+model EditRequestMaterial {
+  id           String              @id @default(uuid()) @db.Uuid
+  name         String              @db.VarChar(100)
+  url          String              @db.VarChar(200)
+  thumbnailUrl String?             @db.VarChar(200)
+  contentType  MaterialTypeContent @default(PHOTOS)
+  fileSize     Int?                @db.Integer
+  mimetype     String?
+
+  editRequestId String      @db.Uuid
+  editRequest   EditRequest @relation(fields: [editRequestId], references: [id], onDelete: Cascade)
+}
+
+model RawMaterialVote {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @db.Uuid
+  materialId  String      @db.Uuid
+  voteType    VoteType
+  createdAt   DateTime    @default(now())
+  rawMaterial RawMaterial @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, materialId])
+}
+
+model EditedMaterialVote {
+  id             String         @id @default(uuid()) @db.Uuid
+  userId         String         @db.Uuid
+  materialId     String         @db.Uuid
+  voteType       VoteType
+  createdAt      DateTime       @default(now())
+  editedMaterial EditedMaterial @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, materialId])
+}
+
+model BookingListColumns {
+  id Int @id @default(autoincrement())
+
+  priority   Boolean @default(true)
+  dateTime   Boolean @default(true)
+  address    Boolean @default(true)
+  contractor Boolean @default(true)
+  stage      Boolean @default(true)
+}
+
+model OrderListColumns {
+  id Int @id @default(autoincrement())
+
+  priority   Boolean @default(true)
+  dateTime   Boolean @default(true)
+  contractor Boolean @default(true)
+  stage      Boolean @default(true)
+
+  adminId String? @unique @db.Uuid
+  admin   Admin?  @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+model InvoiceSentToStripe {
+  id String @id @default(uuid()) @db.Uuid
+
+  status StripeInvoiceStatus @default(SENT)
+
+  stripeInvoiceId String @map("stripe_invoice_id") @db.VarChar(100)
+
+  clientId String     @map("client_id") @db.Uuid
+  client   B2BClients @relation(fields: [clientId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("invoice_sent_to_stripe")
+}
+
+enum StatisticType {
+  BOOKING_RUNNING_LATE
+  BOOKING_RUNNING_ON_TIME
+  CONTRACTOR_INVOICE_CREATED
+  COMPLETED_BOOKING_DURATION
+  COMPLETED_BOOKING_PHOTO_COUNT
+  BOOKING_REVIEW_RATING
+  BOOKING_DONE
+  BOOKING_DONE_WITH_FLOORPLAN
+  BOOKING_DONE_WITHOUT_FLOORPLAN
+  BOOKING_FOORPLAN_ACCURACY
+  BOOKING_PHOTO_SLA
+  BOOKING_PHOTO_SLA_FAILED
+  CONTRACTOR_EXPECTED_EARNING
+}
+
+model Statistic {
+  id String @id @default(uuid()) @db.Uuid
+
+  contractorId String     @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id])
+
+  type StatisticType
+
+  payload Json @db.JsonB
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([type, contractorId, createdAt])
+  @@index([type, contractorId])
+  @@map("statistic")
+}
+
+enum ESoftOrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CREATED
+  CORRECTION_CREATED
+}
+
+enum ESoftOrderType {
+  ORDER
+  ORDER_CORRECTION
+}
+
+model ESoftOrder {
+  id              String           @id @default(uuid()) @db.Uuid
+  orderId         Int              @unique
+  reference       String           @unique @db.Uuid
+  orderLines      ESoftOrderLine[]
+  status          ESoftOrderStatus @default(PENDING)
+  type            ESoftOrderType   @default(ORDER)
+  rootOrderId     String?          @db.Uuid
+  rootOrder       ESoftOrder?      @relation("CorrectionOrder", fields: [rootOrderId], references: [id], onDelete: Cascade)
+  correctionOrder ESoftOrder[]     @relation("CorrectionOrder")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+}
+
+enum ESoftProductTypes {
+  PHOTO
+  VIDEO
+}
+
+model ESoftOrderLine {
+  id String @id @default(uuid()) @db.Uuid
+
+  type               ESoftProductTypes
+  orderLineId        Int               @unique
+  quantity           Int?
+  externalId         String?
+  productName        String?
+  autoMarkBatchReady Boolean?
+
+  orderId String     @db.Uuid
+  order   ESoftOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  httpFiles   ESoftHttpFile[]
+  editRequest EditRequest[]
+
+  @@index([orderId])
+}
+
+model ESoftHttpFile {
+  id String @id @default(uuid()) @db.Uuid
+
+  url  String
+  size Int
+  name String
+
+  orderLineId String         @db.Uuid
+  orderLine   ESoftOrderLine @relation(fields: [orderLineId], references: [id], onDelete: Cascade)
+}
+
+model UserDevices {
+  id          String    @id @default(uuid())
+  oneSignalId String?   @unique @db.VarChar(255)
+  muted       Boolean   @default(false)
+  muteExpiry  DateTime? @db.Timestamp
+
+  ownerId String     @db.Uuid
+  owner   Contractor @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("user_devices")
+}
+
+model DraftBooking {
+  id String @id @default(uuid()) @db.Uuid
+
+  info Json @db.JsonB
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("draft_booking")
+}
+
+model AdjustmentFee {
+  id String @id @default(uuid()) @db.Uuid
+
+  contractorId String     @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  bookingId String  @map("booking_id") @db.Uuid
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  status AdjustmentFeeStatus @default(PENDING)
+
+  type   AdjustmentFeeType
+  amount Float
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("adjustment_fee")
+}
+
+model Equipment {
+  id String @id @default(uuid()) @db.Uuid
+
+  equipmentType EquipmentType
+
+  brand String
+  model String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  contractorId String     @map("contractor_id") @db.Uuid
+  contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+
+  @@map("equipment")
+}
+
+model RouteCache {
+  id String @id @default(uuid()) @db.Uuid
+
+  fromLat Float
+  fromLng Float
+  toLat   Float
+  toLng   Float
+
+  transportMode ContractorTransportation @default(CAR)
+
+  distance Float
+  duration Float
+
+  polyline String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([fromLat, fromLng, toLat, toLng, transportMode])
+  @@map("route_cache")
+}
+
+model BookingRoute {
+  id String @id @default(uuid()) @db.Uuid
+
+  bookingId String  @unique @db.Uuid
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  duration     Float
+  distance     Float
+  isOverridden Boolean @default(false)
+
+  polyline String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("booking_route")
+}
+
+model XeroConnection {
+  id           String @id @default(uuid()) @db.Uuid
+  accessToken  String @db.VarChar(2048)
+  refreshToken String @db.VarChar(2048)
+
+  tenantId String @unique
+
+  expiresAt DateTime @db.Timestamp
+
+  idToken String? @db.VarChar(2048)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
